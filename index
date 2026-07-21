@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Halaman profil EsTeh dengan efek glitch dan hujan emas.">
+  <title>EsTeh</title>
+
+  <style>
+    @font-face {
+      font-family: "Doctor Glitch";
+      src: url("Doctor-Glitch.otf") format("opentype"),
+           url("Doctor-Glitch.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    :root {
+      color-scheme: dark;
+      --gold: #ffd84a;
+      --orange: #ff9d00;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #050505;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(118, 60, 145, 0.23), transparent 38%),
+        radial-gradient(circle, rgba(255,255,255,.65) 1px, transparent 1.5px),
+        #050505;
+      background-size: auto, 46px 46px, auto;
+    }
+
+    .page {
+      position: relative;
+      z-index: 5;
+      width: min(92%, 560px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 55px 20px 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .profile-link {
+      display: block;
+      width: min(100%, 380px);
+      margin-bottom: 22px;
+      border-radius: 20px;
+    }
+
+    .profile-img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 220, 95, 0.45);
+      box-shadow: 0 0 30px rgba(255, 174, 0, 0.2);
+      background: rgba(255,255,255,.06);
+    }
+
+    .glitch-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 20px 24px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .glitch {
+      position: relative;
+      font-family: "Doctor Glitch", Impact, "Arial Black", sans-serif;
+      font-size: clamp(62px, 18vw, 118px);
+      line-height: .72;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: #090909;
+      -webkit-text-stroke: 1px rgba(255, 234, 110, 0.9);
+      text-shadow:
+        2px 2px 0 rgba(255,255,255,.2),
+        -2px -2px 0 rgba(0,0,0,.9),
+        0 0 20px rgba(255,180,0,.28);
+      animation: mainShake 4s infinite steps(1), flicker 2.7s infinite;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: #090909;
+      background: transparent;
+    }
+
+    .glitch::before {
+      text-shadow: -6px 0 #ff004c, 4px 0 #ff3131;
+      animation: glitchRed 1.7s infinite linear alternate-reverse,
+                 sliceRed 2.4s infinite steps(1);
+    }
+
+    .glitch::after {
+      text-shadow: 6px 0 #00eaff, -4px 0 #4d00ff;
+      animation: glitchBlue 1.3s infinite linear alternate-reverse,
+                 sliceBlue 2s infinite steps(1);
+    }
+
+    .scanline {
+      position: absolute;
+      left: 5%;
+      width: 90%;
+      height: 4px;
+      opacity: 0;
+      background: linear-gradient(90deg, transparent, #ff004ccc, #00eaffdd, transparent);
+      box-shadow: 0 0 10px #00eaffcc, 0 0 14px #ff004c99;
+      animation: scanError 3.2s infinite linear;
+    }
+
+    .name-box {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 12px 48px;
+      border: 3px solid transparent;
+      border-radius: 10px;
+      background:
+        linear-gradient(rgba(36, 18, 40, .82), rgba(36, 18, 40, .82)) padding-box,
+        linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, violet, red) border-box;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      animation: hueRotate 3s linear infinite;
+    }
+
+    .btn {
+      display: block;
+      width: min(100%, 285px);
+      margin: 0 auto 25px;
+      padding: 15px 18px;
+      border-radius: 13px;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 7px;
+      text-decoration: none;
+      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet, red);
+      background-size: 400% 100%;
+      box-shadow: 0 10px 28px rgba(0,0,0,.38);
+      animation: rgbMove 5s linear infinite;
+      transition: transform .2s ease, filter .2s ease;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.15);
+      outline: none;
+    }
+
+    .desc {
+      max-width: 480px;
+      margin-bottom: 18px;
+      font-size: clamp(16px, 4vw, 20px);
+      font-weight: 700;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .line {
+      width: 100%;
+      height: 2px;
+      margin: 12px 0 15px;
+      background: linear-gradient(90deg, transparent, #ffe061, transparent);
+      box-shadow: 0 0 8px rgba(255, 204, 0, .55);
+    }
+
+    .copyright {
+      font-size: 14px;
+      opacity: .9;
+    }
+
+    .copyright span {
+      font-weight: 800;
+    }
+
+    #gold-effect,
+    #coin-rain {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #gold-effect {
+      z-index: 20;
+      mix-blend-mode: screen;
+    }
+
+    #gold-effect::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,191,0,.08), transparent 45%),
+        repeating-linear-gradient(to bottom, transparent 0 3px, rgba(255,200,0,.03) 4px, transparent 5px);
+      animation: goldPulse 4s ease-in-out infinite alternate;
+    }
+
+    #rain-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 4px rgba(255,190,0,.75));
+    }
+
+    #coin-rain {
+      z-index: 18;
+    }
+
+    .coin {
+      position: absolute;
+      top: -80px;
+      width: var(--coin-size);
+      height: var(--coin-size);
+      border: 2px solid #fff08a;
+      border-radius: 50%;
+      opacity: var(--coin-opacity);
+      background: radial-gradient(circle at 35% 30%, #fff9a6 0%, #ffe44d 15%, #f5b800 45%, #c77b00 75%, #7a3f00 100%);
+      box-shadow: 0 0 8px rgba(255,215,0,.9), 0 0 18px rgba(255,170,0,.55), inset 0 0 5px rgba(255,255,255,.8);
+      animation: coinFall var(--fall-duration) linear forwards,
+                 coinSpin var(--spin-duration) linear infinite;
+    }
+
+    .coin::before {
+      content: "$";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #8f5000;
+      font: 700 calc(var(--coin-size) * .54) Georgia, serif;
+      text-shadow: 1px 1px 1px rgba(255,245,130,.9);
+    }
+
+    .coin::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(140,75,0,.7);
+      border-radius: 50%;
+    }
+
+    @keyframes hueRotate { to { filter: hue-rotate(360deg); } }
+    @keyframes rgbMove { to { background-position: 400% 0; } }
+    @keyframes goldPulse { from { opacity: .45; } to { opacity: .9; } }
+    @keyframes flicker { 0%,18%,22%,25%,53%,57%,100%{opacity:1} 20%,24%,55%{opacity:.84} }
+    @keyframes glitchRed { 20%{transform:translate(-5px,2px)} 40%{transform:translate(6px,-2px)} 60%{transform:translate(-3px,1px)} 80%{transform:translate(4px,-1px)} }
+    @keyframes glitchBlue { 20%{transform:translate(6px,-1px)} 40%{transform:translate(-7px,2px)} 60%{transform:translate(4px,1px)} 80%{transform:translate(-5px,-2px)} }
+    @keyframes sliceRed { 0%,82%,100%{clip-path:inset(0 0 100% 0)} 83%{clip-path:inset(8% 0 70% 0)} 89%{clip-path:inset(72% 0 12% 0)} 95%{clip-path:inset(55% 0 28% 0)} }
+    @keyframes sliceBlue { 0%,76%,100%{clip-path:inset(100% 0 0 0)} 77%{clip-path:inset(68% 0 10% 0)} 85%{clip-path:inset(48% 0 32% 0)} 93%{clip-path:inset(32% 0 50% 0)} }
+    @keyframes mainShake { 0%,79%,100%{transform:translate(0)} 80%{transform:translate(-2px,1px) skewX(2deg)} 84%{transform:translate(-5px,2px) skewX(4deg)} 88%{transform:translate(0)} }
+    @keyframes scanError { 0%,72%{top:5%;opacity:0} 74%{opacity:1} 82%{top:95%;opacity:.8;transform:translateX(8px)} 84%,100%{top:95%;opacity:0} }
+    @keyframes coinFall {
+      0% { transform: translate3d(0,-100px,0) rotate(0deg); }
+      50% { transform: translate3d(var(--drift-half),52vh,0) rotate(420deg); }
+      100% { transform: translate3d(var(--drift),115vh,0) rotate(840deg); }
+    }
+    @keyframes coinSpin { 50% { filter: brightness(1.5); } }
+
+    @media (max-width: 600px) {
+      .page { padding-inline: 14px; }
+      .profile-link { width: min(90vw, 340px); }
+      .glitch { letter-spacing: 4px; }
+      .name-box { padding-inline: 35px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="profile-link" href="sadako.png" target="_blank" rel="noopener noreferrer">
+      <img class="profile-img" src="hore.jpg.png" alt="Foto profil EsTeh">
+    </a>
+
+    <div class="glitch-wrapper" aria-label="EsTeh">
+      <h1 class="glitch" data-text="EsTeh">EsTeh</h1>
+      <span class="scanline"></span>
+    </div>
+
+    <div class="name-box">ESTEH</div>
+
+    <p class="desc">Selamat datang di halaman resmi EsTeh.</p>
+
+    <a href="https://t.me/zaaah_11" class="btn" target="_blank" rel="noopener noreferrer">
+      TELEGRAM
+    </a>
+
+    <div class="line"></div>
+    <div class="copyright">Copyright 2026 <span>EsTeh</span></div>
+  </main>
+
+  <div id="coin-rain" aria-hidden="true"></div>
+  <div id="gold-effect" aria-hidden="true">
+    <canvas id="rain-canvas"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("rain-canvas");
+    const ctx = canvas.getContext("2d");
+    const coinContainer = document.getElementById("coin-rain");
+
+    let width = 0;
+    let height = 0;
+    let pixelRatio = 1;
+    let rainDrops = [];
+    let particles = [];
+    let animationFrame = 0;
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createDrop(randomPosition = false) {
+      return {
+        x: Math.random() * width,
+        y: randomPosition ? Math.random() * height : -Math.random() * 300,
+        length: random(8, 30),
+        speed: random(7, 17),
+        opacity: random(.15, .7),
+        thickness: random(.3, 1.6),
+        drift: random(-.6, .6)
+      };
+    }
+
+    function resizeCanvas() {
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * pixelRatio;
+      canvas.height = height * pixelRatio;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+      const rainAmount = Math.min(210, Math.floor((width * height) / 8000));
+      rainDrops = Array.from({ length: rainAmount }, () => createDrop(true));
+
+      const particleAmount = Math.min(80, Math.floor((width * height) / 16000));
+      particles = Array.from({ length: particleAmount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: random(.4, 2.2),
+        speed: random(.15, .85),
+        opacity: random(.1, .8),
+        phase: Math.random() * Math.PI * 2
+      }));
+    }
+
+    function drawRain() {
+      for (const drop of rainDrops) {
+        const gradient = ctx.createLinearGradient(drop.x, drop.y, drop.x + drop.drift, drop.y + drop.length);
+        gradient.addColorStop(0, "rgba(255,215,80,0)");
+        gradient.addColorStop(.45, `rgba(255,200,30,${drop.opacity})`);
+        gradient.addColorStop(1, `rgba(255,245,170,${drop.opacity * .9})`);
+
+        ctx.beginPath();
+        ctx.moveTo(drop.x, drop.y);
+        ctx.lineTo(drop.x + drop.drift, drop.y + drop.length);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = drop.thickness;
+        ctx.stroke();
+
+        drop.y += drop.speed;
+        drop.x += drop.drift * .15;
+        if (drop.y > height + drop.length || drop.x < -30 || drop.x > width + 30) {
+          Object.assign(drop, createDrop(false));
+        }
+      }
+    }
+
+    function drawParticles(time) {
+      for (const particle of particles) {
+        particle.y += particle.speed;
+        if (particle.y > height + 10) {
+          particle.y = -10;
+          particle.x = Math.random() * width;
+        }
+
+        const shimmer = .35 + Math.sin(time * .002 + particle.phase) * .25;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,211,70,${particle.opacity * shimmer})`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "rgba(255,174,0,.9)";
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+    }
+
+    function drawGlitchSlice() {
+      if (Math.random() > .97) {
+        ctx.save();
+        ctx.globalAlpha = random(.2, .7);
+        ctx.fillStyle = Math.random() > .5 ? "#ffd84a" : "#ff9d00";
+        ctx.fillRect(random(0, width), random(0, height), random(50, width * .55), random(1, 6));
+        ctx.restore();
+      }
+    }
+
+    function animate(time = 0) {
+      ctx.clearRect(0, 0, width, height);
+      drawRain();
+      drawParticles(time);
+      drawGlitchSlice();
+      animationFrame = requestAnimationFrame(animate);
+    }
+
+    function createCoin() {
+      if (coinContainer.children.length >= 45) return;
+
+      const coin = document.createElement("div");
+      coin.className = "coin";
+      const size = random(20, 46);
+      const drift = random(-130, 130);
+
+      coin.style.left = `${random(0, window.innerWidth)}px`;
+      coin.style.setProperty("--coin-size", `${size}px`);
+      coin.style.setProperty("--fall-duration", `${random(4.5, 8.5)}s`);
+      coin.style.setProperty("--spin-duration", `${random(.7, 1.8)}s`);
+      coin.style.setProperty("--drift", `${drift}px`);
+      coin.style.setProperty("--drift-half", `${drift / 2}px`);
+      coin.style.setProperty("--coin-opacity", random(.45, .95));
+
+      coinContainer.appendChild(coin);
+      coin.addEventListener("animationend", event => {
+        if (event.animationName === "coinFall") coin.remove();
+      });
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) cancelAnimationFrame(animationFrame);
+      else animate();
+    });
+
+    resizeCanvas();
+    animate();
+
+    for (let i = 0; i < 14; i++) {
+      setTimeout(createCoin, i * 120);
+    }
+    setInterval(createCoin, 260);
+  </script>
+</body>
+</html>
