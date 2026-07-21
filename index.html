@@ -1051,43 +1051,44 @@
       TELEGRAM
     </a>
 
-<!-- Tombol Menuju Halaman Video -->
-<div class="video-button-container">
-    <a href="acol.mp4" class="video-btn">
-        ▶ Klik Disini Bodat!
+    <!-- Tombol menuju halaman video -->
+<div class="video-button-wrapper">
+    <a href="acol.mp4" class="video-button">
+        Klik di Sini Bodat !
     </a>
 </div>
 
 <style>
-.video-button-container{
-    width:100%;
-    text-align:center;
-    margin:20px 0;
-}
+    /* CSS hanya berlaku untuk tombol video */
+    .video-button-wrapper {
+        position: relative;
+        display: block;
+        width: 100%;
+        margin: 20px 0;
+        text-align: center;
+    }
 
-.video-btn{
-    display:inline-block;
-    padding:14px 35px;
-    background:linear-gradient(135deg,#FFD700,#FFA500);
-    color:#000;
-    font-size:18px;
-    font-weight:bold;
-    text-decoration:none;
-    border-radius:50px;
-    transition:all .3s ease;
-    font-family:Arial,sans-serif;
-    box-shadow:0 4px 15px rgba(255,170,0,.4);
-}
+    .video-button {
+        display: inline-block;
+        padding: 13px 28px;
+        background: linear-gradient(135deg, #111111, #444444);
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 10px;
+        border: 1px solid #777777;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.video-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 25px rgba(255,170,0,.6);
-}
-
-.video-btn:active{
-    transform:scale(.98);
-}
+    .video-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
 </style>
+
 
     <div class="line"></div>
 
